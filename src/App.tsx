@@ -15,7 +15,8 @@ type Route =
 const currentHash = () => typeof window === "undefined" ? "" : window.location.hash;
 
 function routeFromHash(): Route {
-  const value = currentHash().replace(/^#\/?/, "");
+  const raw = currentHash().replace(/^#\/?/, "");
+  const value = raw.split("?")[0];
   const [page, slug] = value.split("/");
   if (page === "horse" && slug) return { page: "horse", slug };
   if (page === "book" && slug) return { page: "book", slug };
