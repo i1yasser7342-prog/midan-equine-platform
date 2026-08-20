@@ -563,6 +563,31 @@ function IntegrationsPage() {
   </main></DashboardShell>;
 }
 
+function useSession() {
+  const [session, setSession] = useState<Awaited<ReturnType<typeof supabase.auth.getSession>>["data"]["session"] | null>(null);
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => { setSession(data.session); setChecked(true); });
+    const { data: sub } = supabase.auth.onAuthStateChange((_event, next) => setSession(next));
+    return () => sub.subscription.unsubscribe();
+  }, []);
+  return { session, checked };
+}
+
+// Dashboard/clients/analytics/stable-site/integrations show operator-only
+// data. This gate only hides the UI from signed-out visitors; once real
+// per-stable data is wired in, every query must also be scoped server-side
+// (RLS keyed on the owning stable, not just auth.uid() presence).
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const { session, checked } = useSession();
+  useEffect(() => {
+    if (checked && !session) go("/login");
+  }, [checked, session]);
+  if (!checked) return <main className="auth-loading"><p>جارٍ التحقق من الجلسة...</p></main>;
+  if (!session) return null;
+  return <>{children}</>;
+}
+
 function LoginPage() {
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [message, setMessage] = useState("");
@@ -614,11 +639,11 @@ export default function App() {
   if (route.page === "stable") return <StablePage slug={route.slug} data={data} />;
   if (route.page === "horse") return <HorsePage slug={route.slug} data={data} />;
   if (route.page === "book") return <BookingPage slug={route.slug} data={data} />;
-  if (route.page === "dashboard") return <DashboardPage />;
-  if (route.page === "clients") return <ClientsPage />;
-  if (route.page === "analytics") return <AnalyticsPage />;
-  if (route.page === "stable-site") return <StableSitePage />;
-  if (route.page === "integrations") return <IntegrationsPage />;
+  if (route.page === "dashboard") return <RequireAuth><DashboardPage /></RequireAuth>;
+  if (route.page === "clients") return <RequireAuth><ClientsPage /></RequireAuth>;
+  if (route.page === "analytics") return <RequireAuth><AnalyticsPage /></RequireAuth>;
+  if (route.page === "stable-site") return <RequireAuth><StableSitePage /></RequireAuth>;
+  if (route.page === "integrations") return <RequireAuth><IntegrationsPage /></RequireAuth>;
   if (route.page === "login") return <LoginPage />;
   return <PaymentResultPage />;
 }
