@@ -245,6 +245,9 @@ img { max-width: 100%; display: block; }
 .result-icon.failed { background: #fff0f0; color: var(--danger); }
 .result-page h1 { font-size: 35px; margin: 24px 0 8px; }
 .result-page p { color: var(--muted); margin-bottom: 25px; }
+.app-crash { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 30px; background: var(--surface); }
+.app-crash h1 { font-size: 28px; margin: 0 0 10px; }
+.app-crash p { color: var(--muted); margin-bottom: 22px; }
 
 .dashboard-shell { min-height: 100vh; background: #f6f8f7; padding-right: 260px; }
 .dashboard-sidebar { width: 260px; background: #063f30; color: #fff; position: fixed; inset: 0 0 0 auto; padding: 25px 17px; display: flex; flex-direction: column; z-index: 20; }
@@ -390,7 +393,7 @@ td { font-size: 12px; padding: 16px; border-top: 1px solid var(--line); white-sp
   .dashboard-sidebar .brand, .sidebar-exit { display: none; }
   .dashboard-sidebar nav { width: 100%; flex-direction: row; justify-content: space-around; }
   .dashboard-sidebar nav button { flex-direction: column; gap: 2px; padding: 7px 5px; font-size: 9px; text-align: center; }
-  .dashboard-sidebar nav button:nth-child(n+6) { display: none; }
+  .dashboard-sidebar nav button:not(.mobile-tab) { display: none; }
   .dashboard-sidebar nav button svg { width: 18px; }
   .dashboard-top { padding: 0 16px; }
   .stable-switch { margin-right: auto; font-size: 11px; }
