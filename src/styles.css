@@ -1,6 +1,35 @@
 @font-face {
   font-family: "Thmanyah Sans";
-  src: local("Thmanyah Sans"), local("ثمانية الرقمي");
+  src: url("./fonts/thmanyahsans-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Thmanyah Sans";
+  src: url("./fonts/thmanyahsans-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Thmanyah Sans";
+  src: url("./fonts/thmanyahsans-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Thmanyah Sans";
+  src: url("./fonts/thmanyahsans-Bold.woff2") format("woff2");
+  /* The site's headings use several hand-tuned weights (700/750/800) that
+     sit between the Bold and Black masters; font-synthesis is off below,
+     so each weight has to resolve to one real file via a range instead of
+     going unstyled. Bold covers 700-799, Black covers 800+. */
+  font-weight: 600 799;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Thmanyah Sans";
+  src: url("./fonts/thmanyahsans-Black.woff2") format("woff2");
+  font-weight: 800 900;
   font-display: swap;
 }
 
